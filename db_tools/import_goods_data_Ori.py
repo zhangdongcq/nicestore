@@ -2,11 +2,12 @@
 __author__ = 'bobby'
 import sys
 import os
-
+import pymysql
+pymysql.install_as_MySQLdb()
 
 pwd = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(pwd+"../")
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "MxShop.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nicestore.settings")
 
 import django
 django.setup()

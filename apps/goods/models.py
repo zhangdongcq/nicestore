@@ -13,8 +13,8 @@ class GoodsCategory(models.Model):
         (3, 'Third Category'),
         (4, 'Fourth Category'),
     )
-    name = models.CharField(default="", max_length=30, verbose_name="Category Name", help_text='Category Name')
-    code = models.CharField(default="", max_length=30, verbose_name="Category Code", help_text='Category Code')
+    name = models.CharField(max_length=30, verbose_name="Category Name", help_text='Category Name')
+    code = models.CharField(max_length=30, verbose_name="Category Code", help_text='Category Code')
     desc = models.TextField(default="Some Category Description...", verbose_name="Category Description",
                             help_text="Category Description")
     category_type = models.IntegerField(choices=CATEGORY_TYPE, verbose_name='Category Type',
@@ -90,8 +90,8 @@ class Goods(models.Model):
     brand = models.ForeignKey(GoodsCategoryBrand, null=True, blank=True, verbose_name='Product Brand')
     goods_sn = models.CharField(max_length=50, default="", verbose_name='Product SKU')
     name = models.CharField(max_length=300, default="", verbose_name="Product Name")
-    goods_size = models.CharField(choices=GOODS_SIZE, max_length=10, null=True, blank=True, verbose_name="Product Size")
-    goods_color = models.CharField(choices=GOODS_COLOR, max_length=10, null=True, blank=True,
+    goods_size = models.CharField(choices=GOODS_SIZE, default="OneSize", max_length=10, null=True, blank=True, verbose_name="Product Size")
+    goods_color = models.CharField(choices=GOODS_COLOR, default="OneColor", max_length=10, null=True, blank=True,
                                    verbose_name="Available Color")
     click_num = models.IntegerField(default=0, verbose_name='Click Times')
     sold_num = models.IntegerField(default=0, verbose_name='Sold Quantity')
