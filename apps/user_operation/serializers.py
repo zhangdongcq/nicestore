@@ -12,11 +12,11 @@ class UserFavSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserFav
-        fields = ('user', 'goods')
+        fields = ('user', 'goods', 'id')
         validators = [
             UniqueTogetherValidator(
                 queryset=UserFav.objects.all(),
                 fields=('user', 'goods'),
-                message='Already Favored'
+                message='Already Added to Favorite List'
             )
         ]

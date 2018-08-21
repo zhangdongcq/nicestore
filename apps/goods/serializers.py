@@ -37,7 +37,7 @@ class GoodsImageSerializer(serializers.ModelSerializer):
 
 class GoodsSerializer(serializers.ModelSerializer):
     images = GoodsImageSerializer(many=True)
-
+    category = GoodsCategorySerializer()
     class Meta:
         model = Goods
         fields = "__all__"
