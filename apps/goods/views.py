@@ -20,8 +20,12 @@ class GoodsPagination(PageNumberPagination):
 
 
 class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
-    '''Product List, pagination, search, filtering'''
-
+    '''
+    list：
+        Product List, pagination, search, filtering
+    retrieve:
+        Get product detail
+    '''
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
     queryset = Goods.objects.all()

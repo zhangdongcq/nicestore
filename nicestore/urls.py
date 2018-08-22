@@ -23,11 +23,13 @@ from goods.views import GoodsListViewSet, GoodsCategoryViewSet
 from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
 from user_operation.views import UserFavViewset
+from users.views import UserViewset
 
 router = DefaultRouter()
 router.register(r'goods', GoodsListViewSet, base_name='goods')
 router.register(r'userfavs', UserFavViewset, base_name="userfavs")
 router.register(r'categorys', GoodsCategoryViewSet, base_name='categories')
+router.register(r'users', UserViewset, base_name='categories')
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
@@ -38,6 +40,5 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^login', obtain_jwt_token),
-
 
 ]

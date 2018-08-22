@@ -7,8 +7,9 @@ from django.db.models import Q
 
 class GoodsFilter(django_filters.rest_framework.FilterSet):
     '''Pdocut filter'''
-    pricemin = django_filters.NumberFilter(field_name='shop_price', lookup_expr='gte')
-    pricemax = django_filters.NumberFilter(field_name='shop_price', lookup_expr='lte')
+    pricemin = django_filters.NumberFilter(field_name='shop_price', help_text="lower bound of price", lookup_expr='gte')
+    pricemax = django_filters.NumberFilter(field_name='shop_price', help_text="higher bound of price",
+                                           lookup_expr='lte')
     name = django_filters.CharFilter(field_name='name', lookup_expr='iexact')
     top_category = django_filters.NumberFilter(method='top_category_filter')
 

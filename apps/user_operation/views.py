@@ -8,11 +8,11 @@ from rest_framework.authentication import SessionAuthentication
 from user_operation.serializers import UserFavSerializer
 from .models import UserFav
 from utils.permissions import IsOwnerOrReadOnly
-class UserFavViewset(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin):
+class UserFavViewset(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin):
     '''Function of adding favorite goods'''
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
     serializer_class = UserFavSerializer
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
-
+    lookup_field = 'goods_id'
     def get_queryset(self):
         return UserFav.objects.filter(user=self.request.user)
