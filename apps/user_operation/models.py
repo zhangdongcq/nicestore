@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
-
+from users.models import UserProfile
 from goods.models import Goods
 
 User = get_user_model()
@@ -39,15 +39,16 @@ class UserMessages(models.Model):
                                    help_text=u"Message Type: "
                                              u"1: Feedback About Products, "
                                              u"2: Complain, "
-                                             u"3: Gift Card, "
+                                             u"3: Gift Cards, "
                                              u"4: Shipping & Handling, "
                                              u"5: Return & Exchange, "
                                              u"6: Product Inquiries, "
                                              u"7: Payment"
                                    )
-    subject = models.CharField(max_length=100, default="", verbose_name='Message Subject', help_text="Message Subject")
-    message = models.TextField(max_length=1000, default="", verbose_name="Message", help_text="Message")
-    file = models.FileField(upload_to="file/usermsg/", verbose_name="Files to Upload", help_text="Files to Upload")
+    subject = models.CharField(max_length=100, verbose_name='Message Subject', help_text="Message Subject")
+    message = models.TextField(max_length=1000, verbose_name="Message", help_text="Message")
+    file = models.FileField(null=True, blank=True, upload_to="file/usermsg/", verbose_name="Files to Upload",
+                            help_text="Files to Upload")
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'Add Time')
 
     class Meta:
@@ -60,17 +61,26 @@ class UserMessages(models.Model):
 
 class UserAddress(models.Model):
     '''User Address to ship to'''
+    user_record = UserProfile.objects.all()
     user = models.ForeignKey(User, verbose_name="User Name")
-    district = models.CharField(max_length=100, default="", verbose_name='District')
-    address = models.CharField(max_length=200, default="", verbose_name='User Address')
+    # district = models.CharField(max_length=100, default="", verbose_name='District')
     signer_name = models.CharField(max_length=100, default="", verbose_name='Signer')
     signer_mobile = models.CharField(max_length=10, default="", verbose_name='Signer Phone Number')
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'Add Time')
+    # Address
+    apt_num = models.CharField(max_length=10, null=True, blank=True, verbose_name='Apartment Number')
+    street = models.CharField(max_length=50, null=True, blank=True, verbose_name='Street')
+    city = models.CharField(max_length=50, null=True, blank=True, verbose_name='City')
+    province = models.CharField(max_length=20, null=True, blank=True, default="Quebec", verbose_name='Province')
+    postcode = models.CharField(max_length=10, null=True, blank=True, verbose_name='Postcode')
 
     class Meta:
-        verbose_name = 'User Address'
+        verbose_name = 'Shipment Address'
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.address
-
+        return "%s %s (%s)| %s, %s, %s, %s, %s" % (
+            self.user_record["firstname"], self.user_record["lastname"], self.user_record["mobile"],
+            self.user_record["apt_num"],
+            self.user_record["street"], self.user_record["city"], self.user_record["province"],
+            self.user_record["postcode"])

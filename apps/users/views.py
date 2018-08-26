@@ -7,7 +7,7 @@ from rest_framework import viewsets
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 
 from users.models import VerifyCode
-from .serializers import SmsSerializer, UserRegSerializer
+from .serializers import SmsSerializer, UserRegSerializer, UserDetailSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from utils.SMSV import YunPian
@@ -56,7 +56,7 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
             }, status=status.HTTP_201_CREATED)
 
 
-class UserViewset(CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     '''
     Show User Detail
     '''
@@ -64,11 +64,20 @@ class UserViewset(CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericV
     queryset = User.objects.all()
     authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication)
 
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return UserDetailSerializer
+        elif self.action == "create":
+            return UserRegSerializer
+        return UserDetailSerializer
+
+    # permission_classes = (permissions.IsAuthenticated, )
     def get_permissions(self):
-        if self.action == 'retrieve':
+        if self.action == "retrieve":
             return [permissions.IsAuthenticated()]
-        elif self.action == 'create':
+        elif self.action == "create":
             return []
+
         return []
 
     # permission_classes = (permissions.IsAuthenticated,)

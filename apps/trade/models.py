@@ -17,6 +17,7 @@ class ShoppingCart(models.Model):
     class Meta:
         verbose_name = "Shopping Cart"
         verbose_name_plural = verbose_name
+        unique_together = ('user', 'goods')
 
     def __str__(self):
         return "%s(%d)".format(self.goods.name, self.goods_num)

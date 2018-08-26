@@ -5,10 +5,12 @@ from datetime import datetime
 
 class UserProfile(AbstractUser):
     '''User Info'''
+
     username = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name='username')
-    # lastname = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name='Lastname')
+    firstname = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name='First Name')
+    lastname = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name='Last Name')
     mobile = models.CharField(max_length=30, verbose_name='MobilePhone')
-    membershipNumber = models.IntegerField(null=True, blank=True, verbose_name='Membership Card')
+    membershipNumber = models.CharField(max_length=100, null=True, blank=True, verbose_name='Membership Card')
     email = models.CharField(max_length=50, null=True, blank=True, verbose_name='Email')
 
     # Address
@@ -30,7 +32,6 @@ class UserProfile(AbstractUser):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        # username = "%s %s".format(self.firstname, self.lastname)
         return self.username
 
 

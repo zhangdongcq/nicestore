@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 import re
 from django.contrib.auth import get_user_model
@@ -7,7 +6,10 @@ from rest_framework.validators import UniqueValidator
 from nicestore.settings import REGEX_MOBILE
 from datetime import datetime, timedelta
 from .models import VerifyCode
+
 User = get_user_model()
+
+
 class SmsSerializer(serializers.Serializer):
     mobile = serializers.CharField(max_length=10)
 
@@ -20,22 +22,27 @@ class SmsSerializer(serializers.Serializer):
         if not re.match(REGEX_MOBILE, mobile):
             raise serializers.ValidationError('Wrong Number')
 
-        # Validate the frequncy of requesting SMS
+        # Validate the frequency of requesting SMS
         one_minute_ago = datetime.now() - timedelta(hours=0, minutes=1, seconds=0)
-        if VerifyCode.objects.filter(add_time__gt = one_minute_ago, mobile=mobile).count>1:
+        if VerifyCode.objects.filter(add_time__gt=one_minute_ago, mobile=mobile).count > 1:
             raise serializers.ValidationError('Too soon since last request')
         return mobile
+
 
 class UserDetailSerializer(serializers.ModelSerializer):
     """
     Serilization of user detail
     """
+
     class Meta:
         model = User
-        fields = ("name", "gender", "birthday", "email", "mobile")
+        fields = (
+        "username", "firstname", "lastname", "email", "mobile", "membershipNumber", "apt_num", "street", "city",
+        "province", "postcode", "preferred_language")
+
 
 class UserRegSerializer(serializers.ModelSerializer):
-    code = serializers.CharField(required=True, write_only=True, max_length=4, min_length=4,label="验证码",
+    code = serializers.CharField(required=True, write_only=True, max_length=4, min_length=4, label="Verification Code",
                                  error_messages={
                                      "blank": "Please enter verification code",
                                      "required": "Please enter verification code",
@@ -44,10 +51,11 @@ class UserRegSerializer(serializers.ModelSerializer):
                                  },
                                  help_text="Verification Code")
     username = serializers.CharField(label="UserName", help_text="User Name", required=True, allow_blank=False,
-                                     validators=[UniqueValidator(queryset=User.objects.all(), message="User Already Existed")])
+                                     validators=[
+                                         UniqueValidator(queryset=User.objects.all(), message="User Already Existed")])
 
     password = serializers.CharField(
-        style={'input_type': 'password'},help_text="Password", label="Password", write_only=True,
+        style={'input_type': 'password'}, help_text="Password", label="Password", write_only=True,
     )
 
     # def create(self, validated_data):
@@ -85,4 +93,3 @@ class UserRegSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username", "code", "mobile", "password")
-
