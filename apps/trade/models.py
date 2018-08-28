@@ -11,7 +11,7 @@ class ShoppingCart(models.Model):
     '''Shopping cart'''
     user = models.ForeignKey(User, verbose_name='User Name')
     goods = models.ForeignKey(Goods, verbose_name='Item Name')
-    goods_num = models.IntegerField(default=0, verbose_name='Sold Amount')
+    nums = models.IntegerField(default=0, verbose_name='Sold Amount')
     add_time = models.DateTimeField(default=datetime.now, verbose_name='Add Time')
 
     class Meta:
@@ -20,7 +20,7 @@ class ShoppingCart(models.Model):
         unique_together = ('user', 'goods')
 
     def __str__(self):
-        return "%s(%d)".format(self.goods.name, self.goods_num)
+        return "%s(%d)".format(self.goods.name, self.nums)
 
 
 class OrderInfo(models.Model):
@@ -37,10 +37,10 @@ class OrderInfo(models.Model):
         ('others', 'Others'),
     )
     user = models.ForeignKey(User, verbose_name='User Name')
-    order_sn = models.CharField(max_length=50, unique=True, verbose_name='Order Number')
+    order_sn = models.CharField(max_length=50, unique=True, null=True, blank=True, verbose_name='Order Number')
     trade_no = models.CharField(max_length=100, unique=True, null=True, blank=True, verbose_name='Trade Number')
     pay_status = models.CharField(choices=ORDER_STATUS, max_length=20, null=True, blank=True,
-                                  verbose_name='Payment Status')
+                                  verbose_name='Payment Status', default="pending")
     pay_type = models.CharField(choices=PAY_TYPE, max_length=30, null=True, blank=True, verbose_name='Payment Method')
     post_script = models.TextField(max_length=200, null=True, blank=True, verbose_name='Order Comment')
     order_amount = models.FloatField(default=0.0, verbose_name='Order Amount')
@@ -49,6 +49,7 @@ class OrderInfo(models.Model):
 
     # User Info
     address = models.CharField(max_length=200, default="", verbose_name='Receipt Address')
+    email = models.CharField(max_length=200, default="", verbose_name='Receipt Email')
     signer_name = models.CharField(max_length=30, default="", verbose_name="Signature Of Receipt")
     signer_mobile = models.CharField(max_length=10, verbose_name='Contact Phone of signer')
 
@@ -62,9 +63,9 @@ class OrderInfo(models.Model):
 
 class OrderGoods(models.Model):
     '''Order Detail'''
-    order = models.ForeignKey(OrderInfo, verbose_name='Order Information')
+    order = models.ForeignKey(OrderInfo, verbose_name='Order Information', related_name="goods")
     goods = models.ForeignKey(Goods, verbose_name='Product Name')
-    goods_num = models.IntegerField(default=0, verbose_name='Product Inventory')
+    goods_num = models.IntegerField(default=0, verbose_name='Ordered Amount')
     add_time = models.DateTimeField(default=datetime.now, verbose_name='Add Time')
 
     class Meta:

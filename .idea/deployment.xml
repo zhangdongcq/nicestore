@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="niceshop_ubuntu">
+    <serverData>
+      <paths name="niceshop">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/projects/niceshop" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="niceshop_ubuntu">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/projects/nicestore/nicestore" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

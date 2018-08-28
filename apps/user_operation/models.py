@@ -68,11 +68,13 @@ class UserAddress(models.Model):
     signer_mobile = models.CharField(max_length=10, default="", verbose_name='Signer Phone Number')
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'Add Time')
     # Address
-    apt_num = models.CharField(max_length=10, null=True, blank=True, verbose_name='Apartment Number')
-    street = models.CharField(max_length=50, null=True, blank=True, verbose_name='Street')
-    city = models.CharField(max_length=50, null=True, blank=True, verbose_name='City')
-    province = models.CharField(max_length=20, null=True, blank=True, default="Quebec", verbose_name='Province')
-    postcode = models.CharField(max_length=10, null=True, blank=True, verbose_name='Postcode')
+
+    apt_num = models.CharField(max_length=10, null=True, blank=True, verbose_name='Apartment Number For Shipping')
+    street = models.CharField(max_length=50, null=True, blank=True, verbose_name='Street For Shipping')
+    city = models.CharField(max_length=50, null=True, blank=True, verbose_name='City For Shipping')
+    province = models.CharField(max_length=20, null=True, blank=True, default="Quebec For Shipping", verbose_name='Province For Shipping')
+    postcode = models.CharField(max_length=10, null=True, blank=True, verbose_name='Postcode For Shipping')
+    email = models.CharField(max_length=10, null=True, blank=True, verbose_name='Email For Shipping')
 
     class Meta:
         verbose_name = 'Shipment Address'

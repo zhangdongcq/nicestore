@@ -4,11 +4,12 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import mixins, generics, viewsets, filters
 
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Goods, GoodsCategory
+from .models import Goods, GoodsCategory, Banner
 from .filters import GoodsFilter
 
-from .serializers import GoodsSerializer, GoodsCategorySerializer
+from .serializers import GoodsSerializer, GoodsCategorySerializer, BannerSerializer
 from rest_framework.authentication import TokenAuthentication
+
 
 # Create your views here.
 
@@ -19,7 +20,7 @@ class GoodsPagination(PageNumberPagination):
     max_page_size = 100
 
 
-class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     '''
     list：
         Product List, pagination, search, filtering
@@ -45,3 +46,10 @@ class GoodsCategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, vie
     serializer_class = GoodsCategorySerializer
 
 
+class BannerViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
+    '''
+    list:
+        return Banners' Info
+    '''
+    queryset = Banner.objects.all().order_by("index")
+    serializer_class = BannerSerializer
