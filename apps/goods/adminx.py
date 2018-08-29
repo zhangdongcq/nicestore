@@ -12,8 +12,7 @@
 @time: 2017/7/4 17:04
 """
 import xadmin
-from .models import Goods, GoodsCategory, GoodsImage, GoodsCategoryBrand, Banner
-
+from .models import Goods, GoodsCategory, GoodsImage, GoodsCategoryBrand, Banner, IndexAd
 
 # from .models import IndexAd
 
@@ -63,6 +62,9 @@ class HotSearchAdmin(object):
 class IndexAdAdmin(object):
     list_display = ["category", "goods"]
 
+# class IndexGoodsAdAdmin(object):
+#     list_display = ["category", "goods"]
+
 
 xadmin.site.register(Goods, GoodsAdmin)
 xadmin.site.register(GoodsCategory, GoodsCategoryAdmin)
@@ -70,4 +72,4 @@ xadmin.site.register(Banner, BannerGoodsAdmin)
 xadmin.site.register(GoodsCategoryBrand, GoodsBrandAdmin)
 
 # xadmin.site.register(HotSearchWords, HotSearchAdmin)
-# xadmin.site.register(IndexAd, IndexAdAdmin)
+xadmin.site.register(IndexAd, IndexAdAdmin)

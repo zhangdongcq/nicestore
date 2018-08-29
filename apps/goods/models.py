@@ -90,20 +90,22 @@ class Goods(models.Model):
     brand = models.ForeignKey(GoodsCategoryBrand, null=True, blank=True, verbose_name='Product Brand')
     goods_sn = models.CharField(max_length=50, default="", verbose_name='Product SKU')
     name = models.CharField(max_length=300, default="", verbose_name="Product Name")
-    goods_size = models.CharField(choices=GOODS_SIZE, default="OneSize", max_length=10, null=True, blank=True, verbose_name="Product Size")
+    goods_size = models.CharField(choices=GOODS_SIZE, default="OneSize", max_length=10, null=True, blank=True,
+                                  verbose_name="Product Size")
     goods_color = models.CharField(choices=GOODS_COLOR, default="OneColor", max_length=10, null=True, blank=True,
                                    verbose_name="Available Color")
     click_num = models.IntegerField(default=0, verbose_name='Click Times')
     sold_num = models.IntegerField(default=0, verbose_name='Sold Quantity')
     fav_num = models.IntegerField(default=0, verbose_name='Total Favorite')
-    goods_num = models.IntegerField(default=0, null=True, blank=True, verbose_name='Inventory')
+    goods_num = models.IntegerField(default=100, null=True, blank=True, verbose_name='Inventory')
     market_price = models.FloatField(default=0.0, verbose_name='Market Price')  # market price
     shop_price = models.FloatField(default=0.0, verbose_name='Price in Store')  # Promotion price in store
     goods_brief = models.TextField(max_length=100, default="", verbose_name='Product Brief Intro')
     goods_desc = UEditorField(verbose_name=u'Product Detail', imagePath='goods/images/', width=1000,
                               height=300, filePath='goods/files/', default='')
     ship_free = models.BooleanField(default=False, verbose_name='Free delivery')
-    goods_front_image = models.ImageField(upload_to="goods/images/", null=True, blank=True, verbose_name='Home Page Product Image')
+    goods_front_image = models.ImageField(upload_to="goods/images/", null=True, blank=True,
+                                          verbose_name='Home Page Product Image')
     # goods_front_image_url = models.CharField(max_length=300, default="", verbose_name='Home Page Product Image')
     is_new = models.BooleanField(default=False, verbose_name='New Arrival')
     is_hot = models.BooleanField(default=False, verbose_name='Popular Product')
@@ -115,6 +117,18 @@ class Goods(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class IndexAd(models.Model):
+    category = models.ForeignKey(GoodsCategory, verbose_name="Category the Ad belongs", related_name="category")
+    goods = models.ForeignKey(Goods, verbose_name='Goods in Index Ad', related_name="goods")
+
+    class Meta:
+        verbose_name = "Ads for Category on Index"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.goods.name
 
 
 class GoodsImage(models.Model):

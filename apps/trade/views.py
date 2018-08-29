@@ -26,6 +26,31 @@ class ShoppingCartViewset(viewsets.ModelViewSet):
     serializer_class = ShoppingCartSerializer
     lookup_field = 'goods_id'
 
+    def perform_create(self, serializer):
+        shop_cart = serializer.save()
+        goods = shop_cart.goods
+        if goods.goods_num > 0:
+            goods.goods_num -= shop_cart.nums
+        goods.save()
+
+    def perform_destroy(self, instance):
+        goods = instance.goods
+        goods.goods_num += instance.nums
+        instance.delete()
+
+    def perform_update(self, serializer):
+        exist_record = ShoppingCart.objects.get(id=serializer.instance.id)
+        exist_nums = exist_record.nums
+        saved_record = serializer.save()
+        nums = saved_record.nums - exist_nums
+        goods = saved_record.goods
+        if goods.goods_num - nums > 0:
+            goods.goods_num -= nums
+        goods.save()
+
+
+
+
     def get_serializer_class(self):
         if self.action == "list":
             return ShopCartDetailSerializer

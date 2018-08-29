@@ -25,6 +25,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset
 from users.views import UserViewset
 from trade.views import ShoppingCartViewset, OrderViewset
+from goods.views import IndexCategoryViewset
 router = DefaultRouter()
 router.register(r'goods', GoodsListViewSet, base_name='goods')
 router.register(r'userfavs', UserFavViewset, base_name="userfavs")
@@ -35,6 +36,7 @@ router.register(r'address', AddressViewset, base_name='address')
 router.register(r'shopcarts', ShoppingCartViewset, base_name='shopcarts')
 router.register(r'banners', BannerViewset, base_name='banners')
 router.register(r'orders', OrderViewset, base_name='orders')
+router.register(r'indexgoods', IndexCategoryViewset, base_name='indexgoods')
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
