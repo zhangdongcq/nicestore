@@ -9,6 +9,7 @@ from .filters import GoodsFilter
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
 from .serializers import GoodsSerializer, GoodsCategorySerializer, BannerSerializer, IndexCategorySerializer
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 
 # Create your views here.
@@ -21,12 +22,14 @@ class GoodsPagination(PageNumberPagination):
 
 
 class GoodsListViewSet(CacheResponseMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    # class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     '''
     list：
         Product List, pagination, search, filtering
     retrieve:
         Get product detail
     '''
+    throttle_classes = (UserRateThrottle, AnonRateThrottle)
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
     queryset = Goods.objects.all()
