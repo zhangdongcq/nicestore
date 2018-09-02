@@ -9,7 +9,7 @@ class UserProfile(AbstractUser):
     username = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name='username')
     firstname = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name='First Name')
     lastname = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name='Last Name')
-    mobile = models.CharField(max_length=30, verbose_name='MobilePhone')
+    mobile = models.CharField(null=True, blank=True, max_length=10, verbose_name='MobilePhone')
     membershipNumber = models.CharField(max_length=100, null=True, blank=True, verbose_name='Membership Card')
     email = models.CharField(max_length=50, null=True, blank=True, verbose_name='Email')
 
